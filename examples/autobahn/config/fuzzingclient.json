@@ -1,0 +1,14 @@
+{
+    "outdir": "./reports/servers",
+    "servers": [
+        {
+            "agent": "websocket",
+            "url": "ws://10.0.197.158:3000"
+        }
+    ],
+    "cases": [
+        "[0-9].*"
+    ],
+    "exclude-cases": [],
+    "exclude-agent-cases": {}
+}
