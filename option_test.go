@@ -19,8 +19,6 @@ func validateServerOption(as *assert.Assertions, u *Upgrader) {
 	as.Equal(config.CompressLevel, option.CompressLevel)
 	as.Equal(config.CompressThreshold, option.CompressThreshold)
 	as.Equal(config.CheckUtf8Enabled, option.CheckUtf8Enabled)
-	as.Equal(config.ReadBufferSize, option.ReadBufferSize)
-	as.Equal(config.WriteBufferSize, option.WriteBufferSize)
 }
 
 func validateClientOption(as *assert.Assertions, option *ClientOption) {
@@ -35,8 +33,6 @@ func validateClientOption(as *assert.Assertions, option *ClientOption) {
 	as.Equal(config.CompressLevel, option.CompressLevel)
 	as.Equal(config.CompressThreshold, option.CompressThreshold)
 	as.Equal(config.CheckUtf8Enabled, option.CheckUtf8Enabled)
-	as.Equal(config.ReadBufferSize, option.ReadBufferSize)
-	as.Equal(config.WriteBufferSize, option.WriteBufferSize)
 }
 
 // 检查默认配置

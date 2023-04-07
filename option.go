@@ -15,10 +15,7 @@ const (
 	defaultReadMaxPayloadSize  = 16 * 1024 * 1024
 	defaultWriteMaxPayloadSize = 16 * 1024 * 1024
 	defaultCompressThreshold   = 512
-	defaultReadBufferSize      = 4 * 1024
-	defaultWriteBufferSize     = 4 * 1024
-
-	defaultDialTimeout = 5 * time.Second
+	defaultDialTimeout         = 5 * time.Second
 )
 
 type (
@@ -39,10 +36,6 @@ type (
 		// Maximum read message content length
 		ReadMaxPayloadSize int
 
-		// 读缓冲区的大小
-		// Size of the read buffer
-		ReadBufferSize int
-
 		// 异步写的容量限制, 容量溢出将会返回错误
 		// Capacity limit for asynchronous writes, overflow will return an error
 		WriteAsyncCap int
@@ -50,10 +43,6 @@ type (
 		// 最大写入的消息内容长度
 		// Maximum length of written message content
 		WriteMaxPayloadSize int
-
-		// 写缓冲区的大小
-		// Size of the write buffer
-		WriteBufferSize int
 
 		// 是否开启数据压缩
 		// Whether to turn on data compression
@@ -77,10 +66,8 @@ type (
 		ReadAsyncGoLimit    int
 		ReadAsyncCap        int
 		ReadMaxPayloadSize  int
-		ReadBufferSize      int
 		WriteAsyncCap       int
 		WriteMaxPayloadSize int
-		WriteBufferSize     int
 		CompressEnabled     bool
 		CompressLevel       int
 		CompressThreshold   int
@@ -112,17 +99,11 @@ func (c *ServerOption) initialize() *ServerOption {
 	if c.ReadAsyncCap <= 0 {
 		c.ReadAsyncCap = defaultReadAsyncCap
 	}
-	if c.ReadBufferSize <= 0 {
-		c.ReadBufferSize = defaultReadBufferSize
-	}
 	if c.WriteAsyncCap <= 0 {
 		c.WriteAsyncCap = defaultWriteAsyncCap
 	}
 	if c.WriteMaxPayloadSize <= 0 {
 		c.WriteMaxPayloadSize = defaultWriteMaxPayloadSize
-	}
-	if c.WriteBufferSize <= 0 {
-		c.WriteBufferSize = defaultWriteBufferSize
 	}
 	if c.CompressEnabled && c.CompressLevel == 0 {
 		c.CompressLevel = defaultCompressLevel
@@ -148,10 +129,8 @@ func (c *ServerOption) getConfig() *Config {
 		ReadAsyncGoLimit:    c.ReadAsyncGoLimit,
 		ReadAsyncCap:        c.ReadAsyncCap,
 		ReadMaxPayloadSize:  c.ReadMaxPayloadSize,
-		ReadBufferSize:      c.ReadBufferSize,
 		WriteAsyncCap:       c.WriteAsyncCap,
 		WriteMaxPayloadSize: c.WriteMaxPayloadSize,
-		WriteBufferSize:     c.WriteBufferSize,
 		CompressEnabled:     c.CompressEnabled,
 		CompressLevel:       c.CompressLevel,
 		CompressThreshold:   c.CompressThreshold,
@@ -164,10 +143,8 @@ type ClientOption struct {
 	ReadAsyncGoLimit    int
 	ReadAsyncCap        int
 	ReadMaxPayloadSize  int
-	ReadBufferSize      int
 	WriteAsyncCap       int
 	WriteMaxPayloadSize int
-	WriteBufferSize     int
 	CompressEnabled     bool
 	CompressLevel       int
 	CompressThreshold   int
@@ -197,17 +174,11 @@ func (c *ClientOption) initialize() *ClientOption {
 	if c.ReadAsyncCap <= 0 {
 		c.ReadAsyncCap = defaultReadAsyncCap
 	}
-	if c.ReadBufferSize <= 0 {
-		c.ReadBufferSize = defaultReadBufferSize
-	}
 	if c.WriteAsyncCap <= 0 {
 		c.WriteAsyncCap = defaultWriteAsyncCap
 	}
 	if c.WriteMaxPayloadSize <= 0 {
 		c.WriteMaxPayloadSize = defaultWriteMaxPayloadSize
-	}
-	if c.WriteBufferSize <= 0 {
-		c.WriteBufferSize = defaultWriteBufferSize
 	}
 	if c.CompressEnabled && c.CompressLevel == 0 {
 		c.CompressLevel = defaultCompressLevel
@@ -231,10 +202,8 @@ func (c *ClientOption) getConfig() *Config {
 		ReadAsyncGoLimit:    c.ReadAsyncGoLimit,
 		ReadAsyncCap:        c.ReadAsyncCap,
 		ReadMaxPayloadSize:  c.ReadMaxPayloadSize,
-		ReadBufferSize:      c.ReadBufferSize,
 		WriteAsyncCap:       c.WriteAsyncCap,
 		WriteMaxPayloadSize: c.WriteMaxPayloadSize,
-		WriteBufferSize:     c.WriteBufferSize,
 		CompressEnabled:     c.CompressEnabled,
 		CompressLevel:       c.CompressLevel,
 		CompressThreshold:   c.CompressThreshold,

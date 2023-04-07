@@ -66,6 +66,15 @@ func NewClient(handler Event, option *ClientOption) (client *Conn, resp *http.Re
 		return client, resp, e
 	}
 
+	if e = conn.AddCloseCallback(func(connection netpoll.Connection) error {
+		client.emitError(internal.ErrConnClosed)
+		return nil
+	}); e != nil {
+		return client, resp, e
+	}
+
+	handler.OnOpen(client)
+
 	e = d.conn.SetOnRequest(func(ctx context.Context, conn netpoll.Connection) error {
 		err := client.readMessage()
 		if err != nil {

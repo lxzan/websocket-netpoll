@@ -76,7 +76,6 @@ func (c *Conn) doWrite(opcode Opcode, payload []byte) error {
 		return err
 	}
 	return nil
-	//return c.wbuf.Flush()
 }
 
 // WriteAsync 异步非阻塞地写入消息

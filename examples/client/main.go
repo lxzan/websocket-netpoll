@@ -27,28 +27,17 @@ func main() {
 	}
 }
 
-type WebSocket struct {
-}
+type WebSocket struct{}
 
-func (c *WebSocket) OnOpen(socket *websocket.Conn) {
+func (c *WebSocket) OnOpen(socket *websocket.Conn) {}
 
-}
+func (c *WebSocket) OnError(socket *websocket.Conn, err error) {}
 
-func (c *WebSocket) OnError(socket *websocket.Conn, err error) {
+func (c *WebSocket) OnClose(socket *websocket.Conn, code uint16, reason []byte) {}
 
-}
+func (c *WebSocket) OnPing(socket *websocket.Conn, payload []byte) {}
 
-func (c *WebSocket) OnClose(socket *websocket.Conn, code uint16, reason []byte) {
-
-}
-
-func (c *WebSocket) OnPing(socket *websocket.Conn, payload []byte) {
-
-}
-
-func (c *WebSocket) OnPong(socket *websocket.Conn, payload []byte) {
-
-}
+func (c *WebSocket) OnPong(socket *websocket.Conn, payload []byte) {}
 
 func (c *WebSocket) OnMessage(socket *websocket.Conn, message *websocket.Message) {
 	fmt.Printf("recv: %s\n", message.Data.String())
