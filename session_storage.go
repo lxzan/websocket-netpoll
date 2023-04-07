@@ -1,4 +1,4 @@
-package gws
+package websocket_netpoll
 
 import (
 	"github.com/hertz-contrib/websocket-netpoll/internal"

@@ -1,7 +1,6 @@
-package gws
+package websocket_netpoll
 
 import (
-	"bufio"
 	"bytes"
 	"compress/flate"
 	"encoding/binary"
@@ -26,8 +25,6 @@ type webSocketMocker struct {
 func (c *webSocketMocker) reset(socket *Conn, reader *bytes.Buffer, writer *bytes.Buffer) {
 	reader.Reset()
 	writer.Reset()
-	socket.rbuf.Reset(reader)
-	socket.wbuf.Reset(writer)
 	atomic.StoreUint32(&socket.closed, 0)
 }
 
@@ -133,7 +130,6 @@ func TestConn(t *testing.T) {
 		conn:    conn,
 		handler: new(webSocketMocker),
 		wmu:     sync.Mutex{},
-		wbuf:    bufio.NewWriter(bytes.NewBuffer(nil)),
 		config:  upgrader.option.getConfig(),
 	}
 	socket.SetDeadline(time.Time{})

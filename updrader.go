@@ -1,4 +1,4 @@
-package gws
+package websocket_netpoll
 
 import (
 	"bytes"
@@ -106,104 +106,11 @@ func (c *Upgrader) doAccept(r *http.Request, conn netpoll.Connection) (*Conn, er
 		return &Conn{conn: conn}, err
 	}
 
-	//if err := internal.Errors(
-	//	func() error { return netConn.SetDeadline(time.Time{}) },
-	//	func() error { return netConn.SetReadDeadline(time.Time{}) },
-	//	func() error { return netConn.SetWriteDeadline(time.Time{}) },
-	//	func() error { return setNoDelay(netConn) }); err != nil {
-	//	return nil, err
-	//}
 	ws := serveWebSocket(true, c.option.getConfig(), session, conn, c.eventHandler, compressEnabled)
 	return ws, nil
 }
 
-//type httpWriter struct {
-//	Conn netpoll.Connection
-//	BRW  *bufio.ReadWriter
-//}
-//
-//func (c *httpWriter) Header() http.Header { return http.Header{} }
-//
-//func (c *httpWriter) Write(b []byte) (int, error) { return c.Conn.Write(b) }
-//
-//func (c *httpWriter) WriteHeader(statusCode int) {}
-//
-//func (c *httpWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
-//	return c.Conn, c.BRW, nil
-//}
-
-//func (c *Upgrader) Upgrade(ctx context.Context, conn netpoll.Connection) error {
-//	reader := bufio.NewReaderSize(conn, 4*1024)
-//	writer := bufio.NewWriterSize(conn, 4*1024)
-//	index := 0
-//	request := &http.Request{Header: http.Header{}}
-//	for {
-//		index++
-//		line, _, err := reader.ReadLine()
-//		//line, err := conn.Reader().Until('\n')
-//		if err != nil {
-//			return err
-//		}
-//
-//		if len(line) == 0 {
-//			break
-//		}
-//
-//		if index == 1 {
-//			arr := bytes.Split(line, []byte(" "))
-//			if len(arr) == 3 {
-//				request.Method = string(arr[0])
-//				URL, err := url.Parse(string(arr[1]))
-//				if err != nil {
-//					return err
-//				}
-//				request.URL = URL
-//			} else {
-//				return internal.ErrHandshake
-//			}
-//			continue
-//		}
-//
-//		arr := strings.Split(string(line), ": ")
-//		if len(arr) != 2 {
-//			return internal.ErrHandshake
-//		}
-//		request.Header.Set(arr[0], arr[1])
-//	}
-//
-//	hw := &httpWriter{Conn: conn, BRW: bufio.NewReadWriter(reader, writer)}
-//	socket, err := c.Accept(hw, request)
-//	if err != nil {
-//		return err
-//	}
-//
-//	c.eventHandler.OnOpen(socket)
-//
-//	conn.AddCloseCallback(func(connection netpoll.Connection) error {
-//		socket.emitError(internal.ErrConnClosed)
-//		return nil
-//	})
-//
-//	return conn.SetOnRequest(func(ctx context.Context, connection netpoll.Connection) error {
-//		for {
-//			n := conn.Reader().Len()
-//			if n == 0 && socket.rbuf.Buffered() == 0 {
-//				break
-//			}
-//			err := socket.readMessage()
-//			if err != nil {
-//				_ = conn.Close()
-//				socket.emitError(err)
-//				return err
-//			}
-//		}
-//		return nil
-//	})
-//}
-
 func (c *Upgrader) OnRequest(ctx context.Context, conn netpoll.Connection) error {
-	//reader := bufio.NewReaderSize(conn, 4*1024)
-	//writer := bufio.NewWriterSize(conn, 4*1024)
 	index := 0
 	request := &http.Request{Header: http.Header{}}
 	for {
