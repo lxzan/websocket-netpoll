@@ -2,7 +2,6 @@ package websocket_netpoll
 
 import (
 	"bytes"
-	"crypto/tls"
 	"encoding/binary"
 	"github.com/hertz-contrib/websocket-netpoll/internal"
 	"net"
@@ -64,20 +63,6 @@ func serveWebSocket(isServer bool, config *Config, session SessionStorage, netCo
 	}
 
 	return c
-}
-
-// Listen listening to websocket messages through a dead loop
-// 监听websocket消息
-func (c *Conn) Listen() {
-	defer c.conn.Close()
-
-	c.handler.OnOpen(c)
-	for {
-		if err := c.readMessage(); err != nil {
-			c.emitError(err)
-			return
-		}
-	}
 }
 
 func (c *Conn) isClosed() bool {
@@ -192,17 +177,4 @@ func (c *Conn) RemoteAddr() net.Addr {
 // NetConn get tcp/tls/... conn
 func (c *Conn) NetConn() net.Conn {
 	return c.conn
-}
-
-// setNoDelay set tcp no delay
-func setNoDelay(conn net.Conn) error {
-	switch v := conn.(type) {
-	case *net.TCPConn:
-		return v.SetNoDelay(false)
-	case *tls.Conn:
-		if netConn, ok := conn.(internal.NetConn); ok {
-			return setNoDelay(netConn.NetConn())
-		}
-	}
-	return nil
 }
